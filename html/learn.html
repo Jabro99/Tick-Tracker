@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learn - Tick Tracker</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<style>
+body:has(.learn-container),
+html:has(.learn-container) {
+  overflow-y: auto !important;
+  height: auto !important;
+}
+</style>
+<body>
+
+  <!-- Same Header as Index -->
+  <header class="header">
+    <div class="logo">Tick Tracker</div>
+    <nav class="nav">
+      <a href="home.html" class="btn">Map</a>
+      <a href="learn.html" class="btn primary">Learn</a>
+    </nav>
+  </header>
+
+  <main class="learn-container">
+    
+    <!-- Seasonal Activity Chart[cite: 2] -->
+    <section class="learn-section">
+      <h2>Seasonal activity</h2>
+      <div class="card chart-card">
+        <div class="chart-controls">
+          <div class="form-group">
+            <label for="chart-city">City</label>
+            <select id="chart-city">
+              <option value="all">All cities</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="chart-year">Year</label>
+            <select id="chart-year">
+              <option value="all">All years</option>
+            </select>
+          </div>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="seasonalChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Species Guide[cite: 2, 3] -->
+    <section class="learn-section">
+      <h2>Species guide</h2>
+      <div class="card-grid">
+        <div class="card">
+          <h3>Marsh tick</h3>
+          <em>Ixodes apronophorus</em>
+          <p>Linked to wet, boggy ground and small mammals. Look for it on walkers and dogs after time near wetlands.</p>
+        </div>
+        <div class="card">
+          <h3>Southern rodent tick</h3>
+          <em>Ixodes acuminatus</em>
+          <p>Mostly feeds on small rodents in burrows and scrub. Rarely bites people, but can hitch a ride on pets.</p>
+        </div>
+        <div class="card">
+          <h3>Passerine tick</h3>
+          <em>Dermacentor frontalis</em>
+          <p>Associated with songbirds and ground-feeding birds. Check pets that roam through hedgerows and nesting areas.</p>
+        </div>
+        <div class="card">
+          <h3>Tree-hole tick</h3>
+          <em>Ixodes arboricola</em>
+          <p>Lives in tree holes and nest boxes where birds roost. More likely near old woodland.</p>
+        </div>
+        <div class="card">
+          <h3>Fox/badger tick</h3>
+          <em>Ixodes canisuga</em>
+          <p>Found on foxes, badgers and dogs. Common where dogs share ground with wildlife, such as kennels and rural paths.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prevention Tips[cite: 3] -->
+    <section class="learn-section">
+      <h2>Prevention tips</h2>
+      <div class="card-grid">
+        <div class="card">
+          <h3>Cover up outdoors</h3>
+          <p>Wear long trousers tucked into socks and light colours so ticks are easier to spot in long grass and woodland.</p>
+        </div>
+        <div class="card">
+          <h3>Use repellent</h3>
+          <p>Apply a repellent suitable for skin or clothing. Ask your vet about tick treatments for dogs and cats.</p>
+        </div>
+        <div class="card">
+          <h3>Check daily</h3>
+          <p>Check yourself, children and pets after time outdoors. Ticks like warm, hidden spots: behind knees, armpits, groin, ears and scalp.</p>
+        </div>
+        <div class="card">
+          <h3>Remove ticks promptly</h3>
+          <p>Grip close to the skin with a tick-removal tool or fine tweezers and pull steadily upward. Clean the bite afterwards.</p>
+        </div>
+        <div class="card">
+          <h3>Keep gardens tidy</h3>
+          <p>Mow lawns, clear leaf litter and keep a gravel or wood-chip strip between lawns and woodland.</p>
+        </div>
+        <div class="card">
+          <h3>Know when to get help</h3>
+          <p>See a GP or vet if a rash spreads, or you or your pet feel unwell in the weeks after a bite. Lyme disease is treatable when caught early.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <script src="../js/learn.js"></script>
+</body>
+</html>

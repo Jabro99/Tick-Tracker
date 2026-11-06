@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tick Tracker</title>
+<link rel="stylesheet" href="../css/styles.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    Tick Tracker
+  </div>
+  <div class="header-actions">
+    <button class="btn primary" id="report-btn">Report a Tick</button>
+    <a href="learn.html" class="btn" id="learn-btn" style="text-decoration: none;">Learn</a>
+  </div>
+</header>
+
+<div class="app-body">
+  <aside class="sidebar">
+    <h3>Filters</h3>
+    
+    <div class="filter-group">
+      <label class="field-label" for="species-filter">Species</label>
+      <select class="field-input" id="species-filter">
+        <option value="all">All Species</option>
+        <option value="Passerine tick">Passerine Tick (Dermacentor frontalis)</option>
+        <option value="Tree-hole tick">Tree-hole Tick (Ixodes arboricola)</option>
+        <option value="Marsh tick">Marsh Tick (Dermacentor reticulatus)</option>
+        <option value="Southern rodent tick">Southern rodent tick (Ixodes acuminatus)</option>
+        <option value="Fox/badger tick">Fox/badger Tick (Ixodes canisuga)</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label class="field-label" for="date-filter-start">Start Date</label>
+      <input class="field-input" type="date" id="date-filter-start">
+    </div>
+
+    <div class="filter-group">
+      <label class="field-label" for="date-filter-end">End Date</label>
+      <input class="field-input" type="date" id="date-filter-end">
+    </div>
+
+    <div class="sidebar-actions">
+      <button class="btn" id="clear-filters-btn">Clear</button>
+      <button class="btn primary" id="apply-filters-btn">Apply</button>
+    </div>
+  </aside>
+
+  <div id="map"></div>
+</div>
+
+
+<!-- City Details Modal -->
+<div class="modal-overlay" id="city-modal" style="display: none;">
+  <div class="modal">
+    <div class="modal-title" id="city-modal-title">City Name</div>
+    <div class="modal-subtitle" id="city-modal-count">0 Sightings</div>
+
+    <!-- Scrollable list container -->
+    <div class="sighting-list-container" id="city-sighting-list">
+      <!-- Sighting items will be injected here by JS -->
+    </div>
+
+    <div class="modal-actions city-modal-actions">
+      <button class="btn" id="share-city-btn">Share</button>
+      <a class="btn" id="directions-city-btn" href="#" target="_blank" rel="noopener noreferrer">Directions</a>
+      <button class="btn" id="close-city-modal-btn">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Report Tick Modal -->
+<div class="modal-overlay" id="report-modal" style="display: none;">
+  <div class="modal">
+    <div class="modal-title">Report a Tick Sighting</div>
+    
+    <form id="report-tick-form" class="tick-form">
+      <div class="form-group">
+        <label for="report-date">Date & Time *</label>
+        <input type="datetime-local" id="report-date" required>
+      </div>
+
+      <div class="form-group">
+        <label for="report-species">Species *</label>
+        <select id="report-species" required>
+          <option value="" data-latin="">Select a species...</option>
+          <option value="Passerine tick" data-latin="Dermacentor frontalis">Passerine Tick (Dermacentor frontalis)</option>
+          <option value="Tree-hole tick" data-latin="Ixodes arboricola">Tree-hole Tick (Ixodes arboricola)</option>
+          <option value="Marsh tick" data-latin="Dermacentor reticulatus">Marsh Tick (Dermacentor reticulatus)</option>
+          <option value="Southern rodent tick" data-latin="Ixodes acuminatus">Southern rodent tick (Ixodes acuminatus)</option>
+          <option value="Fox/badger tick" data-latin="Ixodes canisuga">Fox/badger Tick (Ixodes canisuga)</option>
+      </select>
+    </div>
+
+      <div class="form-group">
+        <label for="report-location">Location (City) *</label>
+        <select id="report-location" required>
+          <option value="">Select a city...</option>
+        </select>
+      </div>
+
+      <div class="modal-actions city-modal-actions">
+        <button type="button" class="btn" id="cancel-report-btn">Cancel</button>
+        <button type="submit" class="btn primary">Submit Report</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<script src="../js/config.js"></script>
+<script src="../js/home.js"></script>
+</body>
+</html> 
