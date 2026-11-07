@@ -25,7 +25,7 @@ This project was intentionally built without heavy frontend frameworks (like Rea
 * **PostgreSQL:** Chosen for its robust handling of structured relational data. 
 * **Automated Data Sync Engine:** The backend runs a self-healing `setInterval` loop every 30 minutes, fetching external API data, filtering incomplete records, and using PostgreSQL's `ON CONFLICT DO NOTHING` to seamlessly merge new data with existing records.
 * **Severity Scoring Algorithm:** Rather than static data serving, the `/city-summary` endpoint computes a dynamic risk score (Low, Medium, High) for every city by comparing rolling 30-day sighting counts against the city's historical monthly average.
-
+* **Resilient Error Handling:** Implements robust try/catch workflows and HTTP status validation to gracefully manage external API outages or database connection issues without crashing the main Express server.
 ---
 
 ## Core Features
@@ -79,14 +79,7 @@ CARTO_API_KEY=your_carto_api_key_here
 
 ```
 
-### 5. Generate Frontend Configuration
-Run the custom build script to inject your Carto API key into the frontend:
-```bash
-node scripts/build-config.js
-```
-*You should see a confirmation message: `Generated /js/config.js`.*
-
-### 6. Run the Application
+### 5. Run the Application
 Start the Node.js backend server:
 ```bash
 node server.js
