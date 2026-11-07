@@ -79,8 +79,7 @@ const CITY_COORDINATES = {
 
 const API_BASE_URL = "http://localhost:3000"
 
-
-// 2. Initialize map with bounds locking and zoom limits
+// Initialises map (locked onto UK)
 const ukBounds = L.latLngBounds(
   L.latLng(49.8, -10.8),
   L.latLng(60.9, 2.0)
@@ -127,7 +126,7 @@ async function fetchSightingsBySpecies(species) {
 
 
 
-// 3. Aggregation Helper
+// Aggregate Sightings by City
 function aggregateSightingsByCity(sightings) {
   return sightings.reduce((acc, sighting) => {
     const city = sighting.location;
@@ -140,7 +139,7 @@ function aggregateSightingsByCity(sightings) {
   }, {});
 }
 
-// 4. Marker Renderer
+// City Marker Renderer
 async function renderCityMarkers(groupedData, map, layerGroup) {
   layerGroup.clearLayers();
 
@@ -155,11 +154,10 @@ async function renderCityMarkers(groupedData, map, layerGroup) {
     const coords = CITY_COORDINATES[group.city];
     if (!coords) return;
 
-    // 1. Get the severity class from your summaries object
+    //  Tick Outbreak Display Severity
     const citySummary = summaries[group.city];
     const severityClass = citySummary ? citySummary.severityClass : 'marker-low';
     
-    // 2. Map the class to readable text
     let severityText = 'Low';
     if (severityClass === 'marker-medium') severityText = 'Medium';
     if (severityClass === 'marker-high') severityText = 'High';
@@ -184,7 +182,7 @@ async function renderCityMarkers(groupedData, map, layerGroup) {
           city: group.city,
           count: cityData.length,
           sightings: cityData,
-          severityLevel: severityText // 3. Pass the text to the modal
+          severityLevel: severityText
         });
       } catch (err) {
         console.error('Error fetching city details:', err);
@@ -196,7 +194,7 @@ async function renderCityMarkers(groupedData, map, layerGroup) {
 }
 
 
-
+// Filter Logic
 
 async function applyFilters() {
   const selectedSpecies = document.getElementById('species-filter').value;
@@ -204,7 +202,6 @@ async function applyFilters() {
   const endDate = document.getElementById('date-filter-end').value;
 
   try {
-    // Determine whether to call species API or fetch all
     let sightings;
     if (selectedSpecies !== 'all') {
       sightings = await fetchSightingsBySpecies(selectedSpecies);
@@ -212,7 +209,6 @@ async function applyFilters() {
       sightings = await fetchAllSightings();
     }
 
-    // Client-side date range filtering
     if (startDate || endDate) {
       sightings = sightings.filter(sighting => {
         const sightingDate = new Date(sighting.date);
@@ -247,7 +243,6 @@ function openCityModal(group) {
   document.getElementById('city-modal-count').textContent = `${group.count} Total Sightings`;
   document.getElementById('city-modal-title').textContent = group.city;
   
-  // Update subtitle to show both count and severity level
   const severityLabel = group.severityLevel || 'Low';
   document.getElementById('city-modal-count').innerHTML = `
     ${group.count} Total Sightings 
@@ -298,26 +293,11 @@ function closeCityModal() {
 
 
 
-// Ensure map recalculates container dimensions on initial DOM load
-document.addEventListener('DOMContentLoaded', () => {
-  setTimeout(() => {
-    map.invalidateSize();
-  }, 100);
 
-
-  // Attach event listeners to the sidebar buttons
-  document.getElementById('apply-filters-btn').addEventListener('click', applyFilters);
-  document.getElementById('clear-filters-btn').addEventListener('click', clearFilters);
-
-  // Initialize all markers on first load
-});
-
-
-// Wire up the close button (Place this inside your existing DOMContentLoaded block)
 document.addEventListener('DOMContentLoaded', async () => {
   setTimeout(() => map.invalidateSize(), 100);
 
-  // Initialize dropdown options and render initial map data
+  // Initialise dropdown options and render initial map data
   await applyFilters();
 
   // Sidebar Controls
@@ -436,13 +416,16 @@ async function fetchCitySummaries() {
   return await res.json();
 }
 
-// Ensure map recalculates container dimensions on initial DOM load
+
+
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     map.invalidateSize();
   }, 100);
 
-  // Initialize data filtering & rendering
+  document.getElementById('apply-filters-btn').addEventListener('click', applyFilters);
+  document.getElementById('clear-filters-btn').addEventListener('click', clearFilters);
+
 });
 
 

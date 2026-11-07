@@ -76,23 +76,20 @@ const CITY_COORDINATES = {
   "York": { lat: 53.9591, lng: -1.0815 }
 };
 
-
-
-
 const API_BASE_URL = 'https://dev-task.elancoapps.com/data'; 
 
 document.addEventListener('DOMContentLoaded', async () => {
   let chartInstance = null;
   let allSightings = [];
 
-  // 1. API Helper to fetch data
+  // API Helper to fetch data
   async function fetchAllSightings() {
     const res = await fetch(`${API_BASE_URL}/tick-sightings`);
     if (!res.ok) throw new Error('Failed to fetch sightings');
     return await res.json();
   }
 
-  // 2. Populate Dropdowns Dynamically from API Payload
+  // Populate Dropdowns Dynamically from API Payload
   function populateDropdowns(sightings) {
     const citySelect = document.getElementById('chart-city');
     const yearSelect = document.getElementById('chart-year');
@@ -122,7 +119,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // 3. Aggregate Monthly Counts
+  // Aggregate Monthly Counts
   function getMonthlyCounts(cityFilter, yearFilter) {
     const counts = new Array(12).fill(0); // Index 0 = Jan, Index 11 = Dec
 
@@ -147,7 +144,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     return counts;
   }
 
-  // 4. Render Chart.js Bar Chart
+  // Render Chart.js Bar Chart
   function updateChart() {
     const selectedCity = document.getElementById('chart-city').value;
     const selectedYear = document.getElementById('chart-year').value;
@@ -195,7 +192,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // 5. Initialize Page
+  // Initialize Page
   try {
     allSightings = await fetchAllSightings();
     populateDropdowns(allSightings);

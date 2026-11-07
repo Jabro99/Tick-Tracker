@@ -46,7 +46,7 @@ async function syncExternalDataToDB() {
 }
 
 
-// GET /tick-sightings - Get all sightings
+// Get all sightings
 app.get('/tick-sightings', async (req, res, next) => {
   try {
     const result = await db.query('SELECT id, species, latin_name AS "latinName", location, date FROM tick_sightings ORDER BY date DESC');
@@ -55,7 +55,7 @@ app.get('/tick-sightings', async (req, res, next) => {
     next(err);
   }
 });
-// GET /tick-sightings/species/:species - Filter by species
+// Filter by species
 app.get('/tick-sightings/species/:species', async (req, res, next) => {
   try {
     const { species } = req.params;
@@ -69,7 +69,7 @@ app.get('/tick-sightings/species/:species', async (req, res, next) => {
   }
 });
 
-// GET /tick-sightings/city/:city - Filter by city
+// Filter by city
 app.get('/tick-sightings/city/:city', async (req, res, next) => {
   try {
     const { city } = req.params;
@@ -83,26 +83,8 @@ app.get('/tick-sightings/city/:city', async (req, res, next) => {
   }
 });
 
-// GET /tick-sightings/:id - Get specific sighting by ID
-app.get('/tick-sightings/:id', async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const result = await db.query(
-      'SELECT id, species, latin_name AS "latinName", location, date FROM tick_sightings WHERE id = $1',
-      [id]
-    );
-    
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Sighting not found' });
-    }
-    
-    res.json(result.rows[0]);
-  } catch (err) {
-    next(err);
-  }
-});
 
-// POST /tick-sightings - Submit a new sighting from form
+// Submit a new sighting from form
 app.post('/tick-sightings', async (req, res) => {
   try {
     const { species, location, date, latinName } = req.body;
@@ -129,7 +111,7 @@ app.post('/tick-sightings', async (req, res) => {
 
 
 
-// GET /city-summary - Calculate severity based on historical averages
+// Calculate severity based on historical averages
 app.get('/city-summary', async (req, res, next) => {
   try {
     const result = await db.query('SELECT location, date FROM tick_sightings');
@@ -139,7 +121,7 @@ app.get('/city-summary', async (req, res, next) => {
     const now = new Date();
     const thirtyDaysAgo = new Date(now.getTime() - (30 * 24 * 60 * 60 * 1000));
 
-    // 1. Tally historical and recent sightings per city
+    //  Tally historical and recent sightings per city
     sightings.forEach(s => {
       const city = s.location;
       if (!cityData[city]) {
@@ -157,7 +139,7 @@ app.get('/city-summary', async (req, res, next) => {
       }
     });
 
-    // 2. Compare current cases to historical averages
+    // Compare current cases to historical averages
     const summaries = {};
     for (const city in cityData) {
       const data = cityData[city];
@@ -169,7 +151,7 @@ app.get('/city-summary', async (req, res, next) => {
       const historicalMonthlyAvg = data.total / monthsActive;
       const currentMonthlyCases = data.recent;
 
-      let severityClass = 'marker-low'; // Default: Green
+      let severityClass = 'marker-low'; // Green (Default)
 
       if (currentMonthlyCases > historicalMonthlyAvg * 1.5) {
         severityClass = 'marker-high'; // Red (Significantly higher than average)
