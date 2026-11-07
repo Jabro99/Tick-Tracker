@@ -75,7 +75,7 @@ DB_PORT=5432
 Within the `/js` folder, create a file named `config.js` and add your Carto API key (freely accessible from https://carto.com/basemaps/apikey/).
 
 ```config.js
-CARTO_API_KEY=your_carto_api_key_here
+CARTO_API_KEY="your_carto_api_key_here";
 
 ```
 
