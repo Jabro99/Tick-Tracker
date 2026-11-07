@@ -119,8 +119,8 @@ header {
 }
 
 .btn.primary:hover {
-  background: var(--accent-dark);
-  border-color: var(--accent-dark);
+  background: #0056b3;
+  border-color: #0056b3;
   color: #ffffff;
 }
 
