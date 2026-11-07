@@ -25,6 +25,16 @@ db.query('SELECT NOW()')
 
 async function syncExternalDataToDB() {
   try {
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS tick_sightings (
+        id VARCHAR(255) PRIMARY KEY,
+        species VARCHAR(255) NOT NULL,
+        latin_name VARCHAR(255),
+        location VARCHAR(255) NOT NULL,
+        date TIMESTAMPTZ NOT NULL
+      );
+    `);
+
     const res = await fetch('https://dev-task.elancoapps.com/data/tick-sightings');
     if (!res.ok) throw new Error(`External API returned status ${res.status}`);
     const rawData = await res.json();
